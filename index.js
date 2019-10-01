@@ -1,7 +1,7 @@
 const fs = require('fs');
 const sharp = require('sharp');
 import { buildSpritesheetDictionary } from './comparer';
-const createTransparentSpritesheets = async (inputPath, outputPath = inputPath) => {
+export const createTransparentSpritesheets = async (inputPath, outputPath = inputPath) => {
     let regex = new RegExp('.*-40_.*\.png', 'g');
     let files = fs.readdirSync(inputPath).filter(x => x.match(regex));
     let spritesheetDictionary = await buildSpritesheetDictionary(inputPath);
