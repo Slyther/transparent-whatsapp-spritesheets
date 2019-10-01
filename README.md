@@ -11,13 +11,13 @@ const tws = require('transparent-whatsapp-spritesheets');
 ```
 
 ### Call
-The module expects either a single path which should point to the directory with the PNG Size 40 Spritesheets, or the spritesheets path as well as a destination directory, in case you don't want to replace the existing WEBP spritesheets.
-
 
 ```javascript
-tws.createTransparentSpritesheets('path/to/img_folder');
+tws.createTransparentSpritesheets(inputPath[, options, outputPath]);
 ```
 
-```javascript
-tws.createTransparentSpritesheets('path/to/img_folder', 'path/to/dest');
-```
+- `inputPath` — The path where the whatsapp spritesheets are found. The Size 40 PNG spritesheets (named 'emoji-x-40_....png') need to be here for the method to work.
+
+- `options` — An object which holds two booleans: `size32` and `size64`. Used to tell the method which spritesheet versions to create. By default, both booleans are set to `true`.
+
+- `outputPath` — An optional path where resulting spritesheets will be placed, in case you don't want to replace the existing WEBP spritesheets. Directory must exist, it will not be created.
