@@ -1,0 +1,19 @@
+{
+  "name": "transparent-whatsapp-spritesheets",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon --exec babel-node index"
+  },
+  "dependencies": {
+    "@babel/core": "^7.6.2",
+    "@babel/node": "^7.6.2",
+    "@babel/preset-env": "^7.6.2",
+    "@babel/register": "^7.6.2",
+    "babel-polyfill": "^6.26.0",
+    "nodemon": "^1.19.2",
+    "pixelmatch": "^5.1.0",
+    "sharp": "^0.23.1"
+  }
+}
