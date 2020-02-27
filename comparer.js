@@ -4,30 +4,38 @@ const sharp = require('sharp');
 const pixelmatch = require('pixelmatch');
 
 export const buildSpritesheetDictionary = async (path, options) => {
+    //load all filenames for PNGs, size 32 WEBPs, and size 64 WEBPs. all 3 arrays should be the same size.
     let regex40 = new RegExp('.*-40_.*\.png', 'g');
     let regex32 = new RegExp('.*-32_.*\.webp', 'g');
     let regex64 = new RegExp('.*-64_.*\.webp', 'g');
     let files40 = fs.readdirSync(path).filter(x => x.match(regex40));
     let files32 = options.size32 ? fs.readdirSync(path).filter(x => x.match(regex32)) : [];
     let files64 = options.size64 ? fs.readdirSync(path).filter(x => x.match(regex64)) : [];
+    //build a map detailing the amount of spritesheets sharing the same iteration number. also useful to know max iteration number.
+    let count = {};
+    files40.forEach(file => {
+        let number = file.substring(file.indexOf('emoji-')+6, file.indexOf('-40_'));
+        count[number] = (number in count) ? count[number] + 1 : 1;
+    });
+    let max = Math.max(...Object.keys(count));
     let spritesheetDictionary = {};
-    for(let i = 0; i <= 101; i++){
+    for(let i = 0; i <= max; i++){
         let substring = 'emoji-'+i+'-';
         let subfiles40 = files40.filter(x => x.startsWith(substring));
         let subfiles32 = options.size32 ? files32.filter(x => x.startsWith(substring)) : [];
         let subfiles64 = options.size64 ? files64.filter(x => x.startsWith(substring)) : [];
         spritesheetDictionary[subfiles40[0]] = {};
-        //there's only 1 spritesheet101. this might change in the future.
-        if(i == 101){
+        if(count[i] === 1){
             if(options.size32){
                 spritesheetDictionary[subfiles40[0]].size32 = subfiles32[0];
             }
             if(options.size64){
                 spritesheetDictionary[subfiles40[0]].size64 = subfiles64[0];
             }
-            break;
+            continue;
         }
         spritesheetDictionary[subfiles40[1]] = {};
+        //we want to compare the PNGs to the WEBPs to figure out which of the two PNGs equates to which WEBP. Sizes are fixed sicne we are diffing the bytes and matching by minimum amount of difference.
         let png1 = await sharp(path+'\\'+subfiles40[0]).resize(200, 200).png().toBuffer();
         let png2 = await sharp(path+'\\'+subfiles40[1]).resize(200, 200).png().toBuffer();
         let webp32 = options.size32 ? await sharp(path+'\\'+subfiles32[0]).resize(200, 200).png().toBuffer() : {};
