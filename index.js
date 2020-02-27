@@ -52,4 +52,4 @@ export const createTransparentSpritesheets = async (inputPath, options = {size32
     });
 }
 
-createTransparentSpritesheets('C:\\Users\\Joseph Griffin\\Documents\\Projects\\whatsapp-desktop-dark\\dist\\Windows\\backup\\destfolder\\img', {size32: true, size64: true}, 'C:\\Users\\Joseph Griffin\\Documents\\Projects\\whatsapp-desktop-dark\\dist\\Windows\\backup\\destfolder\\computed');
+// createTransparentSpritesheets('F:\\WADark-Windows\\backup\\dest\\img', {size32: true, size64: true}, 'F:\\WADark-Windows\\backup\\dest\\computed');
